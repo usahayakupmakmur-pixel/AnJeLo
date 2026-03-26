@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --color-glass: rgba(255, 255, 255, 0.7);
+  --color-glass-dark: rgba(0, 0, 0, 0.4);
+}
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 min-h-screen font-sans;
+    background: radial-gradient(circle at top left, #f8fafc 0%, #f1f5f9 100%);
+    background-attachment: fixed;
+  }
+}
+
+@utility glass {
+  @apply backdrop-blur-md bg-white/70 border border-white/20 shadow-xl;
+}
+
+@utility glass-dark {
+  @apply backdrop-blur-md bg-black/40 border border-white/10 shadow-2xl;
+}
+
+@utility glass-card {
+  @apply glass rounded-3xl p-6 transition-all duration-300;
+}
+
+@utility floating-nav {
+  @apply fixed bottom-6 left-1/2 -translate-x-1/2 glass rounded-full px-6 py-3 flex items-center gap-8 z-50 shadow-2xl border border-white/30;
+}
+
+@utility mobile-card {
+  @apply glass-card mb-4 active:scale-[0.98] touch-none;
+}

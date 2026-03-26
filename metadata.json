@@ -1,0 +1,5 @@
+{
+  "name": "AnJeLo",
+  "description": "Platform untuk antar jemput logistik, ojek online, belanja, antar jemput sekolah, sampah, isi token listrik, beli pulsa, dan jasa kurir lokal dengan tarif flat 10rb/order (radius 5km).",
+  "requestFramePermissions": ["geolocation"]
+}

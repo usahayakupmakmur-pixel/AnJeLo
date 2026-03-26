@@ -1,0 +1,119 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "driver", "admin"] },
+        "isAvailable": { "type": "boolean", "description": "Whether the driver is available for new orders" }
+      },
+      "required": ["uid", "name", "email", "role"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Logistics or service order",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "driverId": { "type": "string" },
+        "type": { "type": "string", "enum": ["logistics", "ojek", "shopping", "school", "trash", "electricity", "credit"] },
+        "status": { "type": "string", "enum": ["pending", "assigned", "accepted", "in-progress", "completed", "cancelled"] },
+        "price": { "type": "number" },
+        "completedAt": { "type": "string", "format": "date-time" },
+        "pickup": { "type": "string" },
+        "destination": { "type": "string" },
+        "pickupCoords": {
+          "type": "object",
+          "properties": {
+            "lat": { "type": "number" },
+            "lng": { "type": "number" }
+          }
+        },
+        "destinationCoords": {
+          "type": "object",
+          "properties": {
+            "lat": { "type": "number" },
+            "lng": { "type": "number" }
+          }
+        },
+        "driverLocation": {
+          "type": "object",
+          "properties": {
+            "lat": { "type": "number" },
+            "lng": { "type": "number" },
+            "updatedAt": { "type": "string", "format": "date-time" }
+          }
+        },
+        "locationHistory": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "lat": { "type": "number" },
+              "lng": { "type": "number" },
+              "timestamp": { "type": "string", "format": "date-time" }
+            }
+          }
+        },
+        "rating": {
+          "type": "object",
+          "properties": {
+            "score": { "type": "number", "minimum": 1, "maximum": 5 },
+            "comment": { "type": "string" },
+            "createdAt": { "type": "string", "format": "date-time" }
+          }
+        }
+      },
+      "required": ["id", "userId", "type", "status", "price"]
+    },
+    "Rating": {
+      "title": "Rating",
+      "description": "Driver rating from user",
+      "type": "object",
+      "properties": {
+        "orderId": { "type": "string" },
+        "userId": { "type": "string" },
+        "driverId": { "type": "string" },
+        "score": { "type": "number", "minimum": 1, "maximum": 5 },
+        "comment": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["orderId", "userId", "driverId", "score"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "Chat message",
+      "type": "object",
+      "properties": {
+        "senderId": { "type": "string" },
+        "senderName": { "type": "string" },
+        "text": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["senderId", "senderName", "text", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "User" },
+      "description": "User profiles"
+    },
+    "/orders/{orderId}": {
+      "schema": { "$ref": "Order" },
+      "description": "Service orders"
+    },
+    "/ratings/{ratingId}": {
+      "schema": { "$ref": "Rating" },
+      "description": "Driver ratings"
+    },
+    "/chats/{orderId}/messages/{messageId}": {
+      "schema": { "$ref": "Message" },
+      "description": "Order-specific chat messages"
+    }
+  }
+}
